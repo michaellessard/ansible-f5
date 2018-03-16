@@ -7,8 +7,8 @@
   - name: Collect BIG-IP facts
     bigip_facts:
         server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
+        user: "{{ F5_USER }}"
+        password: "{{ F5_PASSWORD }}"
         include: "interface,vlan"
         validate_certs: "no"
     delegate_to: localhost
