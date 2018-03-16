@@ -1,0 +1,18 @@
+---
+- name: F5 Opp
+  gather_facts: false
+  hosts: bigip
+  vars: 
+    username: admin 
+    password: 1qaz2wsX
+
+  tasks:
+
+  - name: Collect BIG-IP facts
+    bigip_facts:
+        server: "{{ inventory_hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        include: "interface,vlan"
+        validate_certs: "no"
+    delegate_to: localhost

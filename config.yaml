@@ -1,0 +1,33 @@
+---
+- name: F5 Opp
+  gather_facts: false
+  hosts: bigip
+  vars: 
+    username: admin 
+    password: 1qaz2wsX
+    ntp_servers:
+            - '0.centos.pool.ntp.org'
+            - '1.centos.pool.ntp.org'  
+    banner_text: "------ Welcome to BIGIP Red Hat Ansible workshop -------"       
+
+  tasks:
+  - name: Configure NTP server on BIG-IP
+    bigip_device_ntp:
+       server: "{{ inventory_hostname }}"
+       user: "{{ username }}"
+       password: "{{ password }}"
+       ntp_servers: "{{ ntp_servers }}"
+       validate_certs: False
+    delegate_to: localhost
+
+  - name: Manage SSHD setting on BIG-IP
+    bigip_device_sshd:
+      server: "{{ inventory_hostname }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      banner: "enabled"
+      banner_text: " {{ banner_text }}"
+      validate_certs: False
+    delegate_to: localhost
+
+
