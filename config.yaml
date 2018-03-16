@@ -1,7 +1,7 @@
 ---
 - name: F5 Opp
   gather_facts: false
-  hosts: bigip
+  hosts: all
   vars: 
     username: admin 
     password: 1qaz2wsX
