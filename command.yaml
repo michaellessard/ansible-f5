@@ -2,9 +2,6 @@
 - name: F5 Command
   gather_facts: false
   hosts: bigip
-  vars: 
-    username: admin 
-    password: 1qaz2wsX
 
   tasks:
   - name: show sys version 
