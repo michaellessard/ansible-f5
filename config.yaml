@@ -29,4 +29,16 @@
       validate_certs: False
     delegate_to: localhost
 
+  - name: Set the DNS setting on the BIG-IP
+    bigip_device_dns:
+      name_servers:
+        - 8.8.8.8
+      search:
+        - localdomain
+      state: present
+      server: "{{ inventory_hostname }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: False
+    delegate_to: localhost
 
