@@ -1,7 +1,7 @@
 ---
 - name: F5 Command
   gather_facts: false
-  hosts: bigip
+  hosts: all
 
   tasks:
   - name: show sys version 
