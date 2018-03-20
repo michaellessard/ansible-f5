@@ -6,7 +6,7 @@
     ntp_servers:
             - '0.centos.pool.ntp.org'
             - '1.centos.pool.ntp.org'  
-    banner_text: "------ Welcome to BIGIP Red Hat Ansible workshop -------"       
+    banner_text: "------ Welcome to BIGIP Red Hat Ansible -------"       
 
   tasks:
   - name: Configure NTP server on BIG-IP
