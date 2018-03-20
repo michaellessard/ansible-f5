@@ -1,3 +1,3 @@
 # ansible-f5
 
-Playbook for some demonstrations 
+Some Ansible playbooks for F5-Bigip demonstration
