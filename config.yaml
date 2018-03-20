@@ -3,8 +3,6 @@
   gather_facts: false
   hosts: all
   vars: 
-    username: admin 
-    password: 1qaz2wsX
     ntp_servers:
             - '0.centos.pool.ntp.org'
             - '1.centos.pool.ntp.org'  
