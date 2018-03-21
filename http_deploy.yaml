@@ -1,0 +1,73 @@
+---
+- name: F5 Initial setup
+  gather_facts: false
+  hosts: bigip
+  
+  tasks:
+  - name: Create a web01.internal node             //Creating Node1
+    bigip_node:
+        server: "{{ inventory_hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        host: "192.168.68.140"
+        name: "web01.internal"
+        validate_certs: False
+    delegate_to: localhost
+
+  - name: Create a web02.internal node             //Creating Node2
+    bigip_node:
+        server: "{{ inventory_hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        host: "192.168.68.141"
+        name: "web02.internal"
+        validate_certs: False
+    delegate_to: localhost
+
+  - name: Create a web-pool                        //Creating a pool
+    bigip_pool:
+        server: "{{ inventory_hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        lb_method: "ratio_member"
+        name: "web-pool"
+        validate_certs: False
+        monitors:
+          - '/Common/gateway_icmp'
+        monitor_type: 'and_list'
+    delegate_to: localhost
+
+  - name: Add http node to web-pool                //Assigning members to a pool
+    bigip_pool_member:
+        description: "HTTP Webserver-1"
+        host: "{{ item.host }}"
+        name: "{{ item.name }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        pool: "web-pool"
+        port: "80"
+        server: "{{ inventory_hostname }}"
+        validate_certs: False
+    with_items:
+        - host: "192.168.168.140"
+          name: "web01.internal"
+        - host: "192.168.68.141"
+          name: "web02.internal"
+    delegate_to: localhost
+
+  - name: Create a virtual server                  //Create a HTTPS Virtual Server
+    bigip_virtual_server:
+        description: "Secure web application"
+        server: "{{ inventory_hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        name: "https_vs"
+        destination: "10.10.20.120"
+        port: 443
+        snat: "Automap"
+        all_profiles:
+            - http
+            - clientssl
+        pool: "web-pool"
+        validate_certs: False
+    delegate_to: localhost
